@@ -88,9 +88,6 @@ runs:
                 APK_PATH="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-release.apk"
             fi
             
-            if [ ! -f $APK_PATH ]; then
-              exit 1
-            fi
             echo "::set-output name=apk-path::$(echo $APK_PATH)"
           fi
     
@@ -101,9 +98,6 @@ runs:
                 APK_PATH="${{ inputs.base-directory }}/build/app/outputs/bundle/release/app-release.aab"
             fi
             
-            if [ ! -f $AAB_PATH ]; then
-              exit 1
-            fi
             echo "::set-output name=aab-path::$(echo $AAB_PATH)"
           fi
     
@@ -116,9 +110,6 @@ runs:
                 APK_PATH="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-debug.apk"
             fi
 
-            if [ ! -f $APK_PATH ]; then
-              exit 1
-            fi
             echo "::set-output name=apk-path::$(echo $APK_PATH)"
           fi
     
@@ -129,9 +120,6 @@ runs:
                 APK_PATH="${{ inputs.base-directory }}/build/app/outputs/bundle/debug/app-debug.aab"
             fi
             
-            if [ ! -f $AAB_PATH ]; then
-              exit 1
-            fi
             echo "::set-output name=aab-path::$(echo $AAB_PATH)"
           fi
         fi
