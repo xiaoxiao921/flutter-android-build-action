@@ -1,6 +1,6 @@
 name: flutter-android-build
-description: '🏗 Easy to use flutter android build action'
-author: NiklasLehnfeld
+description: '🏗 Easy to use flutter android build action, support custom base directory'
+author: xiaoxiao921
 branding:
   icon: 'zap'
   color: 'black'
@@ -26,6 +26,10 @@ inputs:
     description: 'key password, required if release is true'
     required: false
     default: ''
+  base-directory:
+    description: 'base directory'
+    required: false
+    default: ''
 
 outputs:
   apk-path:
@@ -38,16 +42,17 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - run: flutter pub get
-      shell: bash
-    - run: flutter pub run build_runner build --delete-conflicting-outputs
-      shell: bash
-    - run: echo "${{ inputs.keystore }}" | base64 -d > android/keystore.jks
-      shell: bash
     - env:
         KEY_PWD: ${{ inputs.key-pwd }}
         KEYSTORE_PWD: ${{ inputs.keystore-pwd }}
+      working-directory: ${{ inputs.base-directory }}
       run: |
+        flutter pub get
+
+        flutter pub run build_runner build --delete-conflicting-outputs
+
+        echo "${{ inputs.keystore }}" | base64 -d > android/keystore.jks
+      
         if [ ${{ inputs.release }} = "true" ]; then
 
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
@@ -106,4 +111,5 @@ runs:
           fi
         fi
       shell: bash
+      working-directory: ${{ inputs.base-directory }}
       id: path-output
