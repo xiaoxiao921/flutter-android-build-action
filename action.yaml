@@ -83,44 +83,44 @@ runs:
     
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
             if [ -z "${{ inputs.base-directory }}" ]; then
-                APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
+                file_path="build/app/outputs/flutter-apk/app-release.apk"
             else
-                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-release.apk"
+                file_path="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-release.apk"
             fi
             
-            echo "::set-output name=apk-path::$(echo $APK_PATH)"
+            echo "::set-output name=apk-path::$(echo $file_path)"
           fi
     
           if [ ${{ inputs.build-type }} = "aab" ] || [ ${{ inputs.build-type }} = "both" ]; then
             if [ -z "${{ inputs.base-directory }}" ]; then
-                APK_PATH="build/app/outputs/bundle/release/app-release.aab"
+                file_path="build/app/outputs/bundle/release/app-release.aab"
             else
-                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/bundle/release/app-release.aab"
+                file_path="${{ inputs.base-directory }}/build/app/outputs/bundle/release/app-release.aab"
             fi
             
-            echo "::set-output name=aab-path::$(echo $AAB_PATH)"
+            echo "::set-output name=aab-path::$(echo $file_path)"
           fi
     
         else
     
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
             if [ -z "${{ inputs.base-directory }}" ]; then
-                APK_PATH="build/app/outputs/flutter-apk/app-debug.apk"
+                file_path="build/app/outputs/flutter-apk/app-debug.apk"
             else
-                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-debug.apk"
+                file_path="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-debug.apk"
             fi
 
-            echo "::set-output name=apk-path::$(echo $APK_PATH)"
+            echo "::set-output name=apk-path::$(echo $file_path)"
           fi
     
           if [ ${{ inputs.build-type }} = "aab" ] || [ ${{ inputs.build-type }} = "both" ]; then
             if [ -z "${{ inputs.base-directory }}" ]; then
-                APK_PATH="build/app/outputs/bundle/debug/app-debug.aab"
+                file_path="build/app/outputs/bundle/debug/app-debug.aab"
             else
-                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/bundle/debug/app-debug.aab"
+                file_path="${{ inputs.base-directory }}/build/app/outputs/bundle/debug/app-debug.aab"
             fi
             
-            echo "::set-output name=aab-path::$(echo $AAB_PATH)"
+            echo "::set-output name=aab-path::$(echo $file_path)"
           fi
         fi
       shell: bash
