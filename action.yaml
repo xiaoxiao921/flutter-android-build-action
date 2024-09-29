@@ -77,7 +77,7 @@ runs:
         if [ ${{ inputs.release }} = "true" ]; then
     
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            APK_PATH=${{ inputs.base-directory }}/build/app/outputs/apk/release/`ls ${{ inputs.base-directory }}/build/app/outputs/apk/release | grep apk`
+            APK_PATH=build/app/outputs/flutter-apk/app-release.apk
             if [ ! -f $APK_PATH ]; then
               exit 1
             fi
@@ -85,7 +85,7 @@ runs:
           fi
     
           if [ ${{ inputs.build-type }} = "aab" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            AAB_PATH=${{ inputs.base-directory }}/build/app/outputs/bundle/release/`ls ${{ inputs.base-directory }}/build/app/outputs/bundle/release | grep aab`
+            AAB_PATH=build/app/outputs/bundle/release/app-release.aab
             if [ ! -f $AAB_PATH ]; then
               exit 1
             fi
@@ -95,7 +95,7 @@ runs:
         else
     
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            APK_PATH=${{ inputs.base-directory }}/build/app/outputs/apk/debug/`ls ${{ inputs.base-directory }}/build/app/outputs/apk/debug | grep apk`
+            APK_PATH=build/app/outputs/flutter-apk/app-debug.apk
             if [ ! -f $APK_PATH ]; then
               exit 1
             fi
@@ -103,7 +103,7 @@ runs:
           fi
     
           if [ ${{ inputs.build-type }} = "aab" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            AAB_PATH=${{ inputs.base-directory }}/build/app/outputs/bundle/debug/`ls ${{ inputs.base-directory }}/build/app/outputs/bundle/debug | grep aab`
+            AAB_PATH=build/app/outputs/bundle/debug/app-debug.aab
             if [ ! -f $AAB_PATH ]; then
               exit 1
             fi
