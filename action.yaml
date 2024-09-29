@@ -46,6 +46,8 @@ runs:
         KEY_PWD: ${{ inputs.key-pwd }}
         KEYSTORE_PWD: ${{ inputs.keystore-pwd }}
       run: |
+        set -x
+      
         if [ -n "${{ inputs.base-directory }}" ]; then
           cd ${{ inputs.base-directory }}
         fi
