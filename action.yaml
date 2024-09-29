@@ -45,14 +45,18 @@ runs:
     - env:
         KEY_PWD: ${{ inputs.key-pwd }}
         KEYSTORE_PWD: ${{ inputs.keystore-pwd }}
-      working-directory: ${{ inputs.base-directory }}
       run: |
+        if [ -n "${{ inputs.base-directory }}" ]; then
+          cd ${{ inputs.base-directory }}
+        fi
+      
         flutter pub get
 
         flutter pub run build_runner build --delete-conflicting-outputs
 
         echo "${{ inputs.keystore }}" | base64 -d > android/keystore.jks
-      
+
+        # build
         if [ ${{ inputs.release }} = "true" ]; then
 
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
@@ -71,13 +75,17 @@ runs:
             flutter build appbundle --debug || true
           fi
         fi
-      shell: bash
-    - run: |
-    
+
+        # release
         if [ ${{ inputs.release }} = "true" ]; then
     
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            APK_PATH=build/app/outputs/flutter-apk/app-release.apk
+            if [ -z "${{ inputs.base-directory }}" ]; then
+                APK_PATH="build/app/outputs/flutter-apk/app-release.apk"
+            else
+                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-release.apk"
+            fi
+            
             if [ ! -f $APK_PATH ]; then
               exit 1
             fi
@@ -85,7 +93,12 @@ runs:
           fi
     
           if [ ${{ inputs.build-type }} = "aab" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            AAB_PATH=build/app/outputs/bundle/release/app-release.aab
+            if [ -z "${{ inputs.base-directory }}" ]; then
+                APK_PATH="build/app/outputs/bundle/release/app-release.aab"
+            else
+                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/bundle/release/app-release.aab"
+            fi
+            
             if [ ! -f $AAB_PATH ]; then
               exit 1
             fi
@@ -95,7 +108,12 @@ runs:
         else
     
           if [ ${{ inputs.build-type }} = "apk" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            APK_PATH=build/app/outputs/flutter-apk/app-debug.apk
+            if [ -z "${{ inputs.base-directory }}" ]; then
+                APK_PATH="build/app/outputs/flutter-apk/app-debug.apk"
+            else
+                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/flutter-apk/app-debug.apk"
+            fi
+
             if [ ! -f $APK_PATH ]; then
               exit 1
             fi
@@ -103,7 +121,12 @@ runs:
           fi
     
           if [ ${{ inputs.build-type }} = "aab" ] || [ ${{ inputs.build-type }} = "both" ]; then
-            AAB_PATH=build/app/outputs/bundle/debug/app-debug.aab
+            if [ -z "${{ inputs.base-directory }}" ]; then
+                APK_PATH="build/app/outputs/bundle/debug/app-debug.aab"
+            else
+                APK_PATH="${{ inputs.base-directory }}/build/app/outputs/bundle/debug/app-debug.aab"
+            fi
+            
             if [ ! -f $AAB_PATH ]; then
               exit 1
             fi
@@ -111,7 +134,6 @@ runs:
           fi
         fi
       shell: bash
-      working-directory: ${{ inputs.base-directory }}
       id: path-output
 
 
